@@ -16,6 +16,8 @@ class Image
     void InitTexture();
     void Display();
     void PrintPixels();
+    int GetWidth();
+    int GetHeight();
     private:
     int width;
     int height;

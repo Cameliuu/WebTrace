@@ -3,7 +3,7 @@
 #define APP_H
 #include <SDL.h>
 #include "../Image/image.h"
-
+#include "../Scene/scene.h"
 class App {
 public:
     App();
@@ -18,5 +18,6 @@ private:
     SDL_Window *pWindow;
     SDL_Renderer *pRenderer;
     Image image;
+    Scene scene;
 };
 #endif

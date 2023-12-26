@@ -52,6 +52,10 @@ void App::OnRender(){
     SDL_SetRenderDrawColor(pRenderer, 255, 255, 255, 255);
     SDL_RenderClear(pRenderer);
 
+    //Rende the scene
+    scene.Render(image);
+
+
     // Display the image.
 
         image.Display();

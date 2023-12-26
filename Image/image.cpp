@@ -13,6 +13,7 @@ const uint32_t R_MASK = 0x000000ff;
     const uint32_t A_MASK = 0xff000000;
 #endif
 
+
 Image::Image(){}
 
 Image::~Image()
@@ -20,12 +21,14 @@ Image::~Image()
     if(texture != NULL)
         SDL_DestroyTexture(texture);
 }
+int Image::GetWidth(){ return this->width; }
+int Image::GetHeight(){ return this->height; }
 Uint32 Image::GetLinearPosition(int x, int y) {
     return (y*width)+x;
 }
 void Image::SetPixel(int x, int y, Color color) {
     Uint32 pos = GetLinearPosition(x,y);
-
+;
     pixels.at(pos) = color.GetColor();
 }
 void Image::Init(int width, int height,SDL_Renderer *renderer)
@@ -64,26 +67,14 @@ void Image::InitTexture()
 }
 void Image::PrintPixels() {
     for(int i =0; i<pixels.size();i++)
-        std::cout<<pixels[i]<<" ";
+        std::cout<< std::hex << pixels[i]<<" ";
 }
 void Image::Display(){
-
-                        //r a b g
-    Color color = Color(1.0f, 1.0f, 0.0f, 1.0f); // Opaque Red
-
-
-    for(int x=0;x<width;x++)
-        for(int y=0;y<height;y++)
-        {
-
-            SetPixel(x,y,color);
-        }
-
 
     if (SDL_UpdateTexture(texture, NULL, pixels.data(), width * sizeof(Uint32)) != 0) {
         std::cerr << "SDL_UpdateTexture failed: " << SDL_GetError() << std::endl;
     }
-
+    PrintPixels();
     //CREATE SOURCE AND DESTINATION RECTANGLES
     SDL_Rect source,dest;
     source.x = 0;

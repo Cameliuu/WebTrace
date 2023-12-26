@@ -1,23 +1,19 @@
 #include "color.h"
 #include <iostream>
-
-//r a b g
-Uint32 Color::GetColorFromABGR(float a, float r, float g, float b) {
-
-    Uint32 color = (static_cast<Uint8>(a * 255.0f) << 24)
-                   | (static_cast<Uint8>(b * 255.0f) << 16)
-                   | (static_cast<Uint8>(g * 255.0f) << 8)
-                   | static_cast<Uint8>(r * 255.0f);
+Uint32 Color::GetColorFromARGB(double r, double g, double b,double a) {
+    Uint32 color = (static_cast<Uint32>(a * 255.0) << 24
+                    | static_cast<Uint32>(b * 255.0) << 16
+                    | static_cast<Uint32>(g * 255.0) << 8
+                    | static_cast<Uint32>(r * 255.0));
 
     return color;
 }
-
 Uint32 Color::GetColor() { return this->i_Color;}
-Color::Color(float a, float r, float g, float b)
+Color::Color(double r, double g, double b, double a)
 {
     this->red = r;
     this->green = g;
     this->blue = b;
     this->alpha = a;
-    this->i_Color = GetColorFromABGR(a, r, g, b);
+    this->i_Color = GetColorFromARGB(r, g, b, a);
 }
