@@ -3,7 +3,7 @@
 #define COLOR_H
 class Color{
     public:
-    Color(float r, float g, float b, float a);
+    Color(float a, float r, float g, float b);
     Uint32 GetColor();
 
 private:
@@ -12,7 +12,7 @@ private:
     float blue;
     float alpha;
     Uint32 i_Color;
-    Uint32 GetColorFromARGB(float r, float g, float b, float a);
+    Uint32 GetColorFromAGBR(float a, float r, float g, float b);
 
 };
 #endif

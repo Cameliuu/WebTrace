@@ -1,7 +1,17 @@
 #include <iostream>
 #include "image.h"
 
-
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+const uint32_t R_MASK = 0xff000000;
+const uint32_t G_MASK = 0x00ff0000;
+const uint32_t B_MASK = 0x0000ff00;
+const uint32_t A_MASK = 0x000000ff;
+#else
+const uint32_t R_MASK = 0x000000ff;
+    const uint32_t G_MASK = 0x0000ff00;
+    const uint32_t B_MASK = 0x00ff0000;
+    const uint32_t A_MASK = 0xff000000;
+#endif
 
 Image::Image(){}
 
@@ -15,7 +25,7 @@ Uint32 Image::GetLinearPosition(int x, int y) {
 }
 void Image::SetPixel(int x, int y, Color color) {
     Uint32 pos = GetLinearPosition(x,y);
-;
+
     pixels.at(pos) = color.GetColor();
 }
 void Image::Init(int width, int height,SDL_Renderer *renderer)
@@ -34,7 +44,7 @@ void Image::InitTexture()
         SDL_DestroyTexture(texture);
 
                 // CREATE THE SURFACE
-    SDL_Surface* surface = SDL_CreateRGBSurface(0, width, height,32,0,0,0,255);
+    SDL_Surface* surface = SDL_CreateRGBSurface(0, width, height,32,R_MASK,G_MASK,B_MASK,A_MASK);
     if (!surface) {
         std::cerr << "SDL_CreateRGBSurface failed: " << SDL_GetError() << std::endl;
     }
@@ -57,7 +67,10 @@ void Image::PrintPixels() {
         std::cout<<pixels[i]<<" ";
 }
 void Image::Display(){
-    Color color = Color(255,255,0,0);
+
+                        //r a b g
+    Color color = Color(1.0f, 1.0f, 0.0f, 1.0f); // Opaque Red
+
 
     for(int x=0;x<width;x++)
         for(int y=0;y<height;y++)
@@ -65,8 +78,8 @@ void Image::Display(){
 
             SetPixel(x,y,color);
         }
-    PrintPixels();
-    std::cout<<"Finished setting pixel values"<<std::endl;
+
+
     if (SDL_UpdateTexture(texture, NULL, pixels.data(), width * sizeof(Uint32)) != 0) {
         std::cerr << "SDL_UpdateTexture failed: " << SDL_GetError() << std::endl;
     }
